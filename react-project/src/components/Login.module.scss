@@ -1,0 +1,33 @@
+* {
+    cursor: default;
+}
+
+.underline {
+    width: 61px;
+    height: 6px;
+    border-radius: 9px;
+    background: rgb(9, 9, 121);
+    background: linear-gradient(90deg, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 480px;
+    height: 80px;
+    background: white;
+    border-radius: 6px;
+
+}
+
+.input input {
+    height: 50px;
+    width: 375px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #64748b;
+    font-size: 19px;
+    cursor: text;
+}
