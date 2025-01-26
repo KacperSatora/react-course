@@ -30,7 +30,7 @@ export default function Todo() {
 
     const addTask = () => {
         if (!newTaskTitle.trim()) {
-            alert("Task title cannot be empty.");
+            alert("Tytuł nie może być pusty");
             return;
         }
         const newTask: Task = {
@@ -49,7 +49,7 @@ export default function Todo() {
             <ul className="mt-[15px] list-disc list-inside">
                 {tasks.length > 0 ? (
                     tasks.map((task) => (
-                        <li key={task.id} className="text-[18px] flex justify-between items-center">
+                        <li key={task.id} className="text-[18px] flex justify-between items-center pb-2">
                             {task.title}
                             <button
                                 onClick={() => removeTask(task.id)}
@@ -67,7 +67,7 @@ export default function Todo() {
             <div className="mt-[30px]">
                 <input
                     type="text"
-                    placeholder="New Task Title"
+                    placeholder="Tytuł zadania"
                     value={newTaskTitle}
                     onChange={(e) => setNewTaskTitle(e.target.value)}
                     className="w-[70%] p-[10px] text-black rounded-md"

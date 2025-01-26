@@ -13,7 +13,7 @@ interface FormData {
 
 export default function Login() {
     const [action, setAction] = useState<"Zaloguj się" | "Zarejestruj się">("Zarejestruj się");
-    const [clickCount, setClickCount] = useState<number>(0);
+    // const [clickCount, setClickCount] = useState<number>(0);
     const [formData, setFormData] = useState<FormData>({
         name: "",
         email: "",
@@ -38,11 +38,13 @@ export default function Login() {
             return;
         }
 
-        setClickCount((prev) => prev + 1);
+        navigate("/todo-list", { state: { userName: name } });
 
-        if (clickCount === 1) {
-            navigate("/todo-list", { state: { userName: name } });
-        }
+        // setClickCount((prev) => prev + 1);
+
+        // if (clickCount === 1) {
+        //     navigate("/todo-list", { state: { userName: name } });
+        // }
     };
 
     return (
@@ -85,18 +87,21 @@ export default function Login() {
             </div>
             <div className="pl-[62px] mt-[27px] text-white text-[18px]">
                 Zapomniano hasła?{" "}
-                <span className="text-fuchsia-800 cursor-pointer">Kliknij tutaj</span>
+                <span className="text-theme-fuchsia cursor-pointer">Kliknij tutaj</span>
             </div>
             <div className="flex gap-[30px] my-[60px] mx-auto">
                 <div
                     className={
                         action === "Zaloguj się"
-                            ? "flex justify-center items-center w-[220px] h-[60px] text-white bg-slate-400 rounded-md text-[19px] font-[700] cursor-pointer"
-                            : "flex justify-center items-center w-[220px] h-[60px] text-white bg-fuchsia-800 rounded-md text-[19px] font-[700] cursor-pointer"
+                            ? "flex justify-center items-center w-[220px] h-[60px] text-white bg-theme-gray rounded-md text-[19px] font-[700] cursor-pointer"
+                            : "flex justify-center items-center w-[220px] h-[60px] text-white bg-theme-fuchsia rounded-md text-[19px] font-[700] cursor-pointer"
                     }
                     onClick={() => {
-                        setAction("Zarejestruj się");
-                        handleClick();
+                        if (action != "Zarejestruj się") {
+                            setAction("Zarejestruj się");
+                        } else {
+                            handleClick();
+                        }
                     }}
                 >
                     Zarejestruj się
@@ -104,12 +109,15 @@ export default function Login() {
                 <div
                     className={
                         action === "Zarejestruj się"
-                            ? "flex justify-center items-center w-[220px] h-[60px] text-white bg-slate-400 rounded-md text-[19px] font-[700] cursor-pointer"
-                            : "flex justify-center items-center w-[220px] h-[60px] text-white bg-fuchsia-800 rounded-md text-[19px] font-[700] cursor-pointer"
+                            ? "flex justify-center items-center w-[220px] h-[60px] text-white bg-theme-gray rounded-md text-[19px] font-[700] cursor-pointer"
+                            : "flex justify-center items-center w-[220px] h-[60px] text-white bg-theme-fuchsia rounded-md text-[19px] font-[700] cursor-pointer"
                     }
                     onClick={() => {
-                        setAction("Zaloguj się");
-                        handleClick();
+                        if (action != "Zaloguj się") {
+                            setAction("Zaloguj się");
+                        } else {
+                            handleClick();
+                        }
                     }}
                 >
                     Zaloguj się
