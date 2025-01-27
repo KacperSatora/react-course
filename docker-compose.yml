@@ -1,0 +1,17 @@
+services:
+  pwr:
+    image: kacpersatora/pwr:1.0
+    build:
+      context: ./react-project
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+  backend:
+    image: kacpersatora/pwr-backend:1.0
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001

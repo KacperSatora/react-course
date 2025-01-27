@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 interface Task {
@@ -9,36 +9,69 @@ interface Task {
 export default function Todo() {
     const location = useLocation();
     const { userName } = location.state || {};
-
-    const initialTasks: Record<string, Task[]> = {
-        Kacper: [
-            { id: 1, title: "Zrobić zakupy" },
-            { id: 2, title: "Umyć naczynia" },
-        ],
-        Jan: [
-            { id: 3, title: "Skończyć projekt" },
-            { id: 4, title: "Wyczyścić mieszkanie" },
-        ],
-    };
-
-    const [tasks, setTasks] = useState<Task[]>(initialTasks[userName] || []);
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [newTaskTitle, setNewTaskTitle] = useState<string>("");
 
-    const removeTask = (id: number) => {
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    useEffect(() => {
+        const fetchTasks = async () => {
+            if (userName) {
+                try {
+                    const response = await fetch(`http://localhost:3001/todo-list/${userName}`);
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch tasks");
+                    } else {
+                        const data = await response.json();
+                        setTasks(data);
+                    };
+                } catch (error) {
+                    console.error("Error fetching tasks:", error);
+                }
+            }
+        };
+        fetchTasks();
+    }, [userName]);
+
+    const removeTask = async (id: number) => {
+        try {
+            const response = await fetch(`http://localhost:3001/todo-list/${id}`, {
+                method: "DELETE",
+            });
+            if (!response.ok) {
+                throw new Error("Failed to delete task");
+            } else {
+                setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+            };
+        } catch (error) {
+            console.error("Error deleting task:", error);
+        }
     };
 
-    const addTask = () => {
+    const addTask = async () => {
         if (!newTaskTitle.trim()) {
             alert("Tytuł nie może być pusty");
             return;
         }
-        const newTask: Task = {
-            id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
-            title: newTaskTitle,
-        };
-        setTasks((prevTasks) => [...prevTasks, newTask]);
-        setNewTaskTitle("");
+        try {
+            const response = await fetch("http://localhost:3001/todo-list", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    userName,
+                    title: newTaskTitle,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error("Failed to add task");
+            } else {
+                const newTask = await response.json();
+                setTasks((prevTasks) => [...prevTasks, newTask]);
+                setNewTaskTitle("");
+            };
+        } catch (error) {
+            console.error("Error adding task:", error);
+        }
     };
 
     return (
@@ -81,4 +114,4 @@ export default function Todo() {
             </div>
         </div>
     );
-};
+}

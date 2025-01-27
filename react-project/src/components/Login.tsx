@@ -89,6 +89,7 @@ export default function Login() {
                 Zapomniano hasła?{" "}
                 <span className="text-theme-fuchsia cursor-pointer">Kliknij tutaj</span>
             </div>
+            <div className="pl-[62px] mt-[10px] text-white text-[18px]">Istotne jest tylko imie, hasło i email są tylko dla wyglądu</div>
             <div className="flex gap-[30px] my-[60px] mx-auto">
                 <div
                     className={
